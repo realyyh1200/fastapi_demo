@@ -1,0 +1,2 @@
+本项目为yyh个人后端学习，使用fastapi框架搭建，其他用户可以将settings_for_use.py改名为settings.py,
+并将配置改成个人的配置即可在自己的环境中使用。

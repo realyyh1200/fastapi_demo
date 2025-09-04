@@ -41,7 +41,7 @@ LocalAsyncSession = async_sessionmaker(
     expire_on_commit=True  # 为了保证强一致性，设置为True
 )
 
-Base = declarative_base()
+BaseTable = declarative_base()
 
 async def get_async_db():
     async with LocalAsyncSession() as session:

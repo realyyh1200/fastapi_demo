@@ -1,10 +1,11 @@
 from fastapi import APIRouter
-from ..contract.response import ResponseModel
+from ..contract.response import ResponseModel, RegisterUser
 
 
 user_router = APIRouter()
 
 
-@user_router.get("/")
-async def root():
-    return ResponseModel(message="Hello World")
+@user_router.post("/register", response_model=ResponseModel)
+async def root(register: RegisterUser):
+    pass
+

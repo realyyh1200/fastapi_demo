@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, field_validator, ValidationError
 
 
 class User(BaseModel):
-    name: str = Field(...,max_length=49)
+    user_name: str = Field(...,max_length=49)
     password: str = Field(...,min_length=8)
 
     @field_validator('password')

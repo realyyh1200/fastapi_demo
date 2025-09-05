@@ -1,8 +1,9 @@
 from pydantic import BaseModel
 
-class RegisterUser(BaseModel):
-    username: str
+class RegisterUserCmd(BaseModel):
+    user_name: str
     password: str
 
 class ResponseModel(BaseModel):
+    code: int
     message: str

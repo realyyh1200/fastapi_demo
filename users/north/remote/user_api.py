@@ -1,11 +1,15 @@
 from fastapi import APIRouter
-from ..contract.response import ResponseModel, RegisterUser
+from ..contract.user_local_cmd import ResponseModel, RegisterUserCmd
+from ..local.user_local_service import UserLocalService
 
 
 user_router = APIRouter()
 
 
 @user_router.post("/register", response_model=ResponseModel)
-async def root(register: RegisterUser):
-    pass
-
+def root(register: RegisterUserCmd):
+    user_local_service = UserLocalService()
+    result = user_local_service.register_user(register)
+    if result:
+        return ResponseModel(code=200, message="Registered successfully")
+    return ResponseModel(code=400, message="bad request")

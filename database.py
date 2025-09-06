@@ -9,7 +9,6 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from settings import ASYNC_DATABASE_URL, DATABASE_URL
 from logger import logger
 
-
 # 同步数据库连接
 engine = create_engine(DATABASE_URL)
 
@@ -18,6 +17,7 @@ LocalSession = sessionmaker(
     autoflush=False,
     bind=engine
 )
+
 
 @contextmanager
 def get_db():
@@ -32,6 +32,7 @@ def get_db():
     finally:
         session.close()
 
+
 # 异步数据库连接,用于处理高并发，IO密集型等场景
 async_engine = create_async_engine(ASYNC_DATABASE_URL)
 
@@ -41,7 +42,9 @@ LocalAsyncSession = async_sessionmaker(
     expire_on_commit=True  # 为了保证强一致性，设置为True
 )
 
+
 BaseTable = declarative_base()
+
 
 async def get_async_db():
     async with LocalAsyncSession() as session:

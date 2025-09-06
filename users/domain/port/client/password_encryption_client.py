@@ -9,4 +9,3 @@ class PasswordEncryptionClient(ABC):
     @abstractmethod
     def verify(self, plain_password: str, hashed_password: str) -> bool:
         pass
-

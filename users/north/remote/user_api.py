@@ -1,6 +1,10 @@
-from fastapi import APIRouter, Form
-from ..contract.user_local_cmd import ResponseModel
-from ..local.user_local_service import UserLocalService
+from typing import Annotated
+
+from fastapi import APIRouter, Form, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
+
+from ..contract.user_local_cmd import ResponseModel, Token
+from ..local.user_local_service import UserLocalService, get_current_user
 
 
 user_router = APIRouter()
@@ -15,11 +19,19 @@ def root(user_name: str = Form(...), password: str = Form(...)):
     return ResponseModel(code=400, message="bad request")
 
 
-@user_router.post("/login", response_model=ResponseModel)
-def login(user_name: str = Form(...), password: str = Form(...)):
+@user_router.post("/token")
+def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
     user_local_service = UserLocalService()
-    result = user_local_service.login_user(user_name, password)
-    if result is None:
-        return ResponseModel(code=400, message="login failed")
-    return ResponseModel(code=200, message=result)
+    access_token = user_local_service.login_user(form_data.username, form_data.password)
+    if access_token is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return Token(access_token=access_token, token_type="bearer")
 
+
+@user_router.post("/hello", response_model=ResponseModel)
+def hello(user_name: str = Depends(get_current_user)):
+    return ResponseModel(code=200, message=f"Hello {user_name}")

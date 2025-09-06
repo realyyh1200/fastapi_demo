@@ -12,10 +12,11 @@ formatter = logging.Formatter(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
+
 def setup_logger(
-    name: str,
-    log_file: str,
-    level: int = logging.INFO
+        name: str,
+        log_file: str,
+        level: int = logging.INFO
 ):
     """创建一个可复用的日志器"""
     logger = logging.getLogger(name)

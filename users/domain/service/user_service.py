@@ -26,8 +26,3 @@ class UserService:
             return None
         token = self.jwt_client.create_token(queried_user.user_name)
         return token
-
-
-
-
-

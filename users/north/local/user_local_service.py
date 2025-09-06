@@ -1,9 +1,16 @@
+from typing import Annotated
+
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
 from logger import logger
 from ...domain.aggregation.user import User
 from ...domain.service.user_service import UserService
 from ...south.client_adapter.password_encryption_adapter import PasswordEncryptionClientAdapter
 from ...south.repository_adapter.user_repository_adapter import UserRepositoryAdapter
 from ...south.client_adapter.jwt_client_adapter import JWTClientAdapter
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 class UserLocalService:
@@ -38,3 +45,10 @@ class UserLocalService:
             return None
 
 
+def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> str:
+    try:
+        jwt_adapter = JWTClientAdapter()
+        return jwt_adapter.get_current_user(token)
+    except Exception as e:
+        logger.error(f"[user]:Failed to get current user: {e}", exc_info=True)
+        raise

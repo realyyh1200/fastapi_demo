@@ -1,5 +1,5 @@
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from logger import logger
 from settings import SECRET_KEY, ACCESS_TOKEN_EXPIRE_DAYS, ALGORITHM
 from ...domain.port.client.jwt_client import JWTClient
@@ -7,12 +7,12 @@ from ...domain.port.client.jwt_client import JWTClient
 
 class JWTClientAdapter(JWTClient):
     def create_token(self, user_name: str) -> str:
-        playload = {
-            'use_rname': user_name,
-            'exp': datetime.now() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS),
-            'iat': datetime.now()  # 签发时间
+        payload = {
+            'usr_name': user_name,
+            'exp': datetime.now(timezone.utc) + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS),
+            'iat': datetime.now(timezone.utc)  # 签发时间
         }
-        token = jwt.encode(playload, SECRET_KEY, algorithm=ALGORITHM)
+        token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
         return token
 
     def verify_token(self, token: str) -> str | None:

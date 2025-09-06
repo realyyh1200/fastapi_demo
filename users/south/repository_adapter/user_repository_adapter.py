@@ -8,24 +8,24 @@ from .dao.user_repository_dao import UserRepositoryDao
 
 
 class UserRepositoryAdapter(UserRepository):
-    def add_user(self, user_name: str, encrypted_password: str) -> bool:
+    def add_user(self, username: str, encrypted_password: str) -> bool:
         try:
-            user_table = UserTable(user_name=user_name, password=encrypted_password)
+            user_table = UserTable(username=username, password=encrypted_password)
             with get_db() as db:
                 user_repo = UserRepositoryDao(db=db)
                 user_repo.add_user(user_table)
         except Exception as e:
-            logger.error(f"[user]添加用户:{user_name}失败, error:{e}")
+            logger.error(f"[user]添加用户:{username}失败, error:{e}")
             return False
         return True
 
-    def query_user(self, user_name: str) -> User | None:
+    def query_user(self, username: str) -> User | None:
         try:
             with get_db() as db:
                 user_repo = UserRepositoryDao(db=db)
-                user_table = user_repo.query_user(user_name)
+                user_table = user_repo.query_user(username)
                 if user_table is not None:
                     return to_model(user_table, User)
         except Exception as e:
-            logger.error(f"[user]查询用户:{user_name}失败, error:{e}")
+            logger.error(f"[user]查询用户:{username}失败, error:{e}")
         return None

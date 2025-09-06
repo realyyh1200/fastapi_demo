@@ -11,9 +11,9 @@ user_router = APIRouter()
 
 
 @user_router.post("/register", response_model=ResponseModel)
-def root(user_name: str = Form(...), password: str = Form(...)):
+def root(username: str = Form(...), password: str = Form(...)):
     user_local_service = UserLocalService()
-    result = user_local_service.register_user(user_name, password)
+    result = user_local_service.register_user(username, password)
     if result:
         return ResponseModel(code=200, message="Registered successfully")
     return ResponseModel(code=400, message="bad request")
@@ -33,5 +33,5 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
 
 
 @user_router.post("/hello", response_model=ResponseModel)
-def hello(user_name: str = Depends(get_current_user)):
-    return ResponseModel(code=200, message=f"Hello {user_name}")
+def hello(username: str = Depends(get_current_user)):
+    return ResponseModel(code=200, message=f"Hello {username}")

@@ -15,14 +15,14 @@ class UserService:
 
     def register(self, user: User) -> bool:
         encrypted_password = self.password_encryption_client.encrypt(user.password)
-        return self.user_repository.add_user(user.user_name, encrypted_password)
+        return self.user_repository.add_user(user.username, encrypted_password)
 
     def login(self, user: User) -> str | None:
-        queried_user = self.user_repository.query_user(user.user_name)
+        queried_user = self.user_repository.query_user(user.username)
         if queried_user is None:
             return None
         result = self.password_encryption_client.verify(user.password, queried_user.password)
         if not result:
             return None
-        token = self.jwt_client.create_token(queried_user.user_name)
+        token = self.jwt_client.create_token(queried_user.username)
         return token

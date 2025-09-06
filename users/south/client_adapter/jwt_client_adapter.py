@@ -8,9 +8,9 @@ from ...domain.port.client.jwt_client import JWTClient
 
 
 class JWTClientAdapter(JWTClient):
-    def create_token(self, user_name: str) -> str:
+    def create_token(self, username: str) -> str:
         payload = {
-            'username': user_name,
+            'username': username,
             'exp': datetime.now(timezone.utc) + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS),
             'iat': datetime.now(timezone.utc)  # 签发时间
         }
@@ -34,7 +34,7 @@ class JWTClientAdapter(JWTClient):
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-        user_name = self.verify_token(token)
-        if user_name is None:
+        username = self.verify_token(token)
+        if username is None:
             raise credentials_exception
-        return user_name
+        return username

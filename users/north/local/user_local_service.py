@@ -22,26 +22,26 @@ class UserLocalService:
                                         user_repository=self.user_repository,
                                         jwt_client=self.jwt_client)
 
-    def register_user(self, user_name: str, password: str) -> bool:
+    def register_user(self, username: str, password: str) -> bool:
         try:
-            logger.info(f"[user]:Registering user {user_name}")
-            register_user = User(user_name=user_name, password=password)
+            logger.info(f"[user]:Registering user {username}")
+            register_user = User(username=username, password=password)
             res = self.user_service.register(register_user)
             if not res:
                 return False
         except Exception as e:
-            logger.error(f"[user]:Failed to register user {user_name}: error: {e}", exc_info=True)
+            logger.error(f"[user]:Failed to register user {username}: error: {e}", exc_info=True)
             return False
         return True
 
-    def login_user(self, user_name, password) -> str | None:
+    def login_user(self, username, password) -> str | None:
         try:
-            logger.info(f"[user]:Logging user {user_name}")
-            login_user = User(user_name=user_name, password=password)
+            logger.info(f"[user]:Logging user {username}")
+            login_user = User(username=username, password=password)
             res = self.user_service.login(login_user)
             return res
         except Exception as e:
-            logger.error(f"[user]:Failed to login user {user_name}: error: {e}", exc_info=True)
+            logger.error(f"[user]:Failed to login user {username}: error: {e}", exc_info=True)
             return None
 
 

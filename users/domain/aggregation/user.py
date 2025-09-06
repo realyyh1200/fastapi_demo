@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, field_validator
 
 
 class User(BaseModel):
-    user_name: str = Field(..., max_length=49)
+    username: str = Field(..., max_length=49)
     password: str = Field(..., min_length=8)
 
     @field_validator('password')
@@ -17,4 +17,4 @@ class User(BaseModel):
         return v
 
     def __str__(self):
-        return f"User(user_name={self.user_name}, password=***)"
+        return f"User(username={self.username}, password=***)"

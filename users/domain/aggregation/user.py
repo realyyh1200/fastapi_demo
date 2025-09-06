@@ -15,3 +15,6 @@ class User(BaseModel):
         if not (has_letter and has_digit and has_special):
             raise ValueError('密码必须包含英文、数字与特殊符号')
         return v
+
+    def __str__(self):
+        return f"User(user_name={self.user_name}, password=***)"

@@ -1,5 +1,5 @@
 from passlib.context import CryptContext
-from ...domain.port.client.password_encryption import PasswordEncryptionClient
+from ...domain.port.client.password_encryption_client import PasswordEncryptionClient
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

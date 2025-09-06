@@ -1,5 +1,5 @@
 import string
-from pydantic import BaseModel, Field, field_validator, ValidationError
+from pydantic import BaseModel, Field, field_validator
 
 
 class User(BaseModel):
@@ -13,5 +13,5 @@ class User(BaseModel):
         has_digit = any(c.isdigit() for c in v)
         has_special = any(c in string.punctuation for c in v)
         if not (has_letter and has_digit and has_special):
-            raise ValidationError('密码必须包含英文、数字与特殊符号')
+            raise ValueError('密码必须包含英文、数字与特殊符号')
         return v

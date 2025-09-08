@@ -10,7 +10,7 @@ from ...south.repository_adapter.user_repository_adapter import UserRepositoryAd
 from ...south.client_adapter.jwt_client_adapter import JWTClientAdapter
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/token")
 
 
 class UserLocalService:

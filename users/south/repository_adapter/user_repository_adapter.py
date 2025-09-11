@@ -16,7 +16,7 @@ class UserRepositoryAdapter(UserRepository):
                 user_repo.add_user(user_table)
         except Exception as e:
             logger.error(f"[user]添加用户:{username}失败, error:{e}")
-            return False
+            raise
         return True
 
     def query_user(self, username: str) -> User | None:
@@ -28,4 +28,15 @@ class UserRepositoryAdapter(UserRepository):
                     return to_model(user_table, User)
         except Exception as e:
             logger.error(f"[user]查询用户:{username}失败, error:{e}")
+            raise
         return None
+
+    def become_merchant(self, username: str) -> bool:
+        try:
+            with get_db() as db:
+                user_repo = UserRepositoryDao(db=db)
+                user_repo.become_merchant(username)
+        except Exception as e:
+            logger.error(f"[user]成为商家失败:{username}, error:{e}")
+            raise
+        return True

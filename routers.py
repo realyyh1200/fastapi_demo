@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from users.north.remote.user_api import user_router
-from ai_coding.north.remote.ai_coding_api import ai_coding_router
+from code_leraning.ai_coding.north.remote.ai_coding_api import ai_coding_router
 
 router = APIRouter()
 

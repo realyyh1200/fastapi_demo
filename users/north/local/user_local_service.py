@@ -44,6 +44,15 @@ class UserLocalService:
             logger.error(f"[user]:Failed to login user {username}: error: {e}", exc_info=True)
             return None
 
+    def become_merchant(self, username: str) -> bool:
+        try:
+            logger.info(f"[user]:Become merchant user {username}")
+            self.user_repository.become_merchant(username)
+        except Exception as e:
+            logger.error(f"[user]:Failed to become merchant user {username}: {e}", exc_info=True)
+            return False
+        return True
+
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> str:
     try:

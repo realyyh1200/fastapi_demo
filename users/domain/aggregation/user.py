@@ -1,10 +1,12 @@
 import string
+
 from pydantic import BaseModel, Field, field_validator
 
 
 class User(BaseModel):
     username: str = Field(..., max_length=49)
     password: str = Field(..., min_length=8)
+    is_merchant: bool = False
 
     @field_validator('password')
     @classmethod

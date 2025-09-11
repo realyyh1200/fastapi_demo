@@ -35,3 +35,11 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
 @user_router.post("/hello", response_model=ResponseModel)
 def hello(username: str = Depends(get_current_user)):
     return ResponseModel(code=200, message=f"Hello {username}")
+
+@user_router.put("/{username}/role", response_model=ResponseModel)
+def become_merchant(username: str = Depends(get_current_user)):
+    user_local_service = UserLocalService()
+    result = user_local_service.become_merchant(username)
+    if result:
+        return ResponseModel(code=200, message="Become merchant successfully")
+    return ResponseModel(code=400, message="become merchant failed")

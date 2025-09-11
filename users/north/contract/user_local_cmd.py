@@ -7,6 +7,7 @@ class Token(BaseModel):
     token_type: str
 
 
+
 class ResponseModel(BaseModel):
     code: int
     message: Any

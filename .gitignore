@@ -3,4 +3,4 @@ __pycache__/
 .idea/
 settings.py
 api_logs/
-ai_coding/
+code_leraning/ai_coding/

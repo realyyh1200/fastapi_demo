@@ -1,9 +1,11 @@
 import string
+from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
 
 
 class User(BaseModel):
+    id: Optional[int] = None
     username: str = Field(..., max_length=49)
     password: str = Field(..., min_length=8)
     is_merchant: bool = False
